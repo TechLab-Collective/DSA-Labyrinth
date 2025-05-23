@@ -20,22 +20,24 @@ jobs:
 
       - name: Set up ${{ matrix.language }}
         run: |
-          if [ "${{ matrix.language }}" = "python" ]; then
+          LANGUAGE="${{ matrix.language }}"
+
+          if [ "$LANGUAGE" = "python" ]; then
             python -m pip install --upgrade pip
 
-          elif [ "${{ matrix.language }}" = "java" ]; then
+          elif [ "$LANGUAGE" = "java" ]; then
             sudo apt-get update
             sudo apt-get install -y maven
 
-          elif [ "${{ matrix.language }}" = "cpp" ]; then
+          elif [ "$LANGUAGE" = "cpp" ]; then
             sudo apt-get update
             sudo apt-get install -y build-essential
 
-          elif [ "${{ matrix.language }}" = "js" ]; then
+          elif [ "$LANGUAGE" = "js" ]; then
             curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
             sudo apt-get install -y nodejs
 
-          elif [ "${{ matrix.language }}" = "go" ]; then
+          elif [ "$LANGUAGE" = "go" ]; then
             wget https://go.dev/dl/go1.21.5.linux-amd64.tar.gz
             sudo tar -C /usr/local -xzf go1.21.5.linux-amd64.tar.gz
             echo "PATH=/usr/local/go/bin:$PATH" >> $GITHUB_ENV
