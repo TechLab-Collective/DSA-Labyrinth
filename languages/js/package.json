@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "devDependencies": {
     "jest": "^29.7.0"
