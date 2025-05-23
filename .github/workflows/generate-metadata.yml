@@ -34,6 +34,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r languages/python/requirements.txt
 
+      - name: Install GitHub CLI
+        run: sudo apt-get install gh -y
+
       - name: Run metadata generation script
         run: |
           python scripts/generate_metadata.py
