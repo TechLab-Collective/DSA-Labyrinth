@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        language: [python, java, cpp, js, go]
+        language: [python, java, cpp, js, go, csharp]
 
     steps:
       - name: Checkout repository
@@ -40,11 +40,13 @@ jobs:
             wget https://go.dev/dl/go1.21.5.linux-amd64.tar.gz
             sudo tar -C /usr/local -xzf go1.21.5.linux-amd64.tar.gz
             echo "PATH=/usr/local/go/bin:$PATH" >> $GITHUB_ENV
-
-          elif ["$LANGUAGE" = "csharp"]; then
-            sudo apt-get update
-            sudo apt-get install -y mono-complete
           fi
+
+      - name: Setup .NET
+        if: matrix.language == 'csharp'
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.x"
 
       - name: Install dependencies and run tests
         run: |
@@ -52,27 +54,15 @@ jobs:
 
           if [ "$LANGUAGE" = "python" ]; then
             export PYTHONPATH=languages/python
-            if [ -f languages/python/requirements.txt ]; then
-              pip install -r languages/python/requirements.txt || exit 1
-            fi
-            if [ -d languages/python/tests ]; then
-              python -m unittest discover -v languages/python/tests
-            else
-              echo "No Python tests found."
-            fi
+            [ -f languages/python/requirements.txt ] && pip install -r languages/python/requirements.txt
+            [ -d languages/python/tests ] && python -m unittest discover -v languages/python/tests
 
           elif [ "$LANGUAGE" = "java" ]; then
-            if [ -f languages/java/pom.xml ]; then
-              mvn -f languages/java clean test
-            else
-              echo "No Java project (pom.xml) found."
-            fi
+            [ -f languages/java/pom.xml ] && mvn -f languages/java clean test
 
           elif [ "$LANGUAGE" = "cpp" ]; then
             cpp_files=$(find languages/cpp -name "*.cpp")
-            if [ -z "$cpp_files" ]; then
-              echo "No C++ source files found."
-            else
+            if [ -n "$cpp_files" ]; then
               g++ $cpp_files -std=c++17 -o cpp_tests && ./cpp_tests
             fi
 
@@ -81,26 +71,16 @@ jobs:
               cd languages/js
               npm install
               npm test
-            else
-              echo "No JS project found."
             fi
 
           elif [ "$LANGUAGE" = "go" ]; then
             export PATH="/usr/local/go/bin:$PATH"
-            if [ -f languages/go/go.mod ]; then
-              cd languages/go
-              go test ./...
-            else
-              echo "No Go module found."
-            fi
-          fi
+            [ -f languages/go/go.mod ] && cd languages/go && go test ./...
 
           elif [ "$LANGUAGE" = "csharp" ]; then
             if [ -f languages/csharp/Project.csproj ]; then
               cd languages/csharp
               dotnet restore
               dotnet test
-            else
-              echo "No C# project found."
             fi
           fi
