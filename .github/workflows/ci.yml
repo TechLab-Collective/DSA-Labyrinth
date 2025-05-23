@@ -40,6 +40,10 @@ jobs:
             wget https://go.dev/dl/go1.21.5.linux-amd64.tar.gz
             sudo tar -C /usr/local -xzf go1.21.5.linux-amd64.tar.gz
             echo "PATH=/usr/local/go/bin:$PATH" >> $GITHUB_ENV
+
+          elif ["$LANGUAGE" = "csharp"]; then
+            sudo apt-get update
+            sudo apt-get install -y mono-complete
           fi
 
       - name: Install dependencies and run tests
@@ -88,5 +92,15 @@ jobs:
               go test ./...
             else
               echo "No Go module found."
+            fi
+          fi
+
+          elif [ "$LANGUAGE" = "csharp" ]; then
+            if [ -f languages/csharp/Project.csproj ]; then
+              cd languages/csharp
+              dotnet restore
+              dotnet test
+            else
+              echo "No C# project found."
             fi
           fi
