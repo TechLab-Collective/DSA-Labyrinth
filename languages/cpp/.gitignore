@@ -1,0 +1,17 @@
+# Object files
+*.o
+
+# Executables
+*.exe
+
+# Debug files
+*.pdb
+
+# Visual Studio files
+*.suo
+*.userprefs
+*.ncb
+*.aps
+*.opensdf
+*.sdf
+*.vcxproj.user

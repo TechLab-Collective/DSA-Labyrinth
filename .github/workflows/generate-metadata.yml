@@ -1,0 +1,60 @@
+name: Generate Metadata
+
+on:
+  push:
+    paths:
+      - 'languages/python/**'
+      - 'languages/java/**'
+      - 'languages/cpp/**'
+      - 'languages/js/**'
+      - 'languages/go/**'
+      - 'metadata/**'
+  pull_request:
+    paths:
+      - 'languages/python/**'
+      - 'languages/java/**'
+      - 'languages/cpp/**'
+      - 'languages/js/**'
+      - 'languages/go/**'
+
+jobs:
+  generate_metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Set up Python environment
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r languages/python/requirements.txt
+
+      - name: Run metadata generation script
+        run: |
+          python scripts/generate_metadata.py
+
+      - name: Create a new branch for metadata changes
+        run: |
+          git checkout -b update-metadata-${{ github.sha }}
+
+      - name: Commit metadata changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@users.noreply.github.com"
+          git add metadata/
+          git commit -m "Auto-generate metadata"
+
+      - name: Push changes to a new branch
+        run: |
+          git push origin update-metadata-${{ github.sha }}
+
+      - name: Create Pull Request
+        run: |
+          gh pr create --base main --head update-metadata-${{ github.sha }} --title "Auto-generated metadata" --body "This PR contains auto-generated metadata files for the changes made in the DSA Labyrinth repository."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
