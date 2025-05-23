@@ -1,0 +1,11 @@
+{
+    "name": "Stack List",
+    "language": "csharp",
+    "path": "languages/csharp/data_structures/stack/stack_list.cpp",
+    "type": "data_structure",
+    "category": "stack",
+    "description": "stack_list implementation using basic data structures in csharp.",
+    "created_at": "2025-05-23 08:08:54",
+    "modified_at": "2025-05-23 08:08:54",
+    "lines_of_code": 49
+}
