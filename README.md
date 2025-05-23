@@ -1,4 +1,4 @@
-# DSA Labyrinth
+# DSA Labyrinth [![CI](https://github.com/TechLab-Collective/DSA-Labyrinth/actions/workflows/ci.yml/badge.svg)](https://github.com/TechLab-Collective/DSA-Labyrinth/actions/workflows/ci.yml) [![Generate Metadata](https://github.com/TechLab-Collective/DSA-Labyrinth/actions/workflows/generate-metadata.yml/badge.svg)](https://github.com/TechLab-Collective/DSA-Labyrinth/actions/workflows/generate-metadata.yml)
 
 ## Multilingual Data Structures & Algorithms Repository
 
