@@ -20,6 +20,7 @@ on:
 jobs:
   generate_metadata:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -46,18 +47,29 @@ jobs:
           git checkout -b update-metadata-${{ github.sha }}
 
       - name: Commit metadata changes
+        id: commit
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@users.noreply.github.com"
           git add metadata/
-          git commit -m "Auto-generate metadata"
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            git commit -m "Auto-generate metadata"
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Push changes to a new branch
+        if: steps.commit.outputs.changes == 'true'
         run: |
           git push origin update-metadata-${{ github.sha }}
 
       - name: Create Pull Request
+        if: steps.commit.outputs.changes == 'true'
         run: |
-          gh pr create --base main --head update-metadata-${{ github.sha }} --title "Auto-generated metadata" --body "This PR contains auto-generated metadata files for the changes made in the DSA Labyrinth repository."
+          gh pr create --base main --head update-metadata-${{ github.sha }} \
+            --title "Auto-generated metadata" \
+            --body "This PR contains auto-generated metadata files for the changes made in the DSA Labyrinth repository."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
