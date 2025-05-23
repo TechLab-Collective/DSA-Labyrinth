@@ -48,10 +48,12 @@ jobs:
               pip install -r requirements.txt || exit 1
             fi
             if [ -d languages/python/tests ]; then
+              export PYTHONPATH=languages/python
               python -m unittest discover -v languages/python/tests
             else
               echo "No Python tests found."
             fi
+          fi
 
           elif [ "${{ matrix.language }}" = "java" ]; then
             if [ -f languages/java/pom.xml ]; then
