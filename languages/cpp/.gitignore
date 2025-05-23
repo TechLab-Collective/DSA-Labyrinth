@@ -3,6 +3,31 @@
 
 # Executables
 *.exe
+*.out
+*.app
+*.dll
+*.so
+*.dylib
+*.a
+# Static libraries
+*.lib
+# Shared libraries
+*.so
+# Debugging files
+*.dSYM
+*.pdb
+# Compiled source
+*.class
+# Precompiled headers
+*.gch
+# Backup files
+*~
+# Temporary files
+*.tmp
+# Cache files
+*.cache
+# IDE specific files
+*.idea
 
 # Debug files
 *.pdb
