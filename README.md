@@ -11,6 +11,7 @@ Welcome to **DSA Labyrinth**, your go-to open-source repository for exploring an
 - C++
 - JavaScript
 - Go
+- C#
 
 Each language has its own folder structured with:
 
@@ -34,6 +35,7 @@ DSA-Labyrinth/
 │   ├── cpp/
 │   ├── js/
 │   └── go/
+|   └── csharp/
 ├── visualizations/         # GIFs and SVGs explaining DSA visually
 ├── benchmarks/             # Language performance comparisons
 ├── metadata/               # Machine-readable index of algorithms
