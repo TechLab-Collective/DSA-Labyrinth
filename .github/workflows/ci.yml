@@ -20,38 +20,66 @@ jobs:
 
       - name: Set up ${{ matrix.language }}
         run: |
-          if [ "${{ matrix.language }}" == "python" ]; then
-            python -m pip install --upgrade pip;
-          elif [ "${{ matrix.language }}" == "java" ]; then
-            sudo apt-get update;
-            sudo apt-get install -y maven;
-          elif [ "${{ matrix.language }}" == "cpp" ]; then
-            sudo apt-get update;
-            sudo apt-get install -y build-essential;
-          elif [ "${{ matrix.language }}" == "js" ]; then
-            curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -;
-            sudo apt-get install -y nodejs;
-          elif [ "${{ matrix.language }}" == "go" ]; then
-            wget https://go.dev/dl/go1.21.5.linux-amd64.tar.gz;
-            sudo tar -C /usr/local -xzf go1.21.5.linux-amd64.tar.gz;
-            echo "export PATH=$PATH:/usr/local/go/bin" >> $GITHUB_ENV;
+          if [ "${{ matrix.language }}" = "python" ]; then
+            python -m pip install --upgrade pip
+
+          elif [ "${{ matrix.language }}" = "java" ]; then
+            sudo apt-get update
+            sudo apt-get install -y maven
+
+          elif [ "${{ matrix.language }}" = "cpp" ]; then
+            sudo apt-get update
+            sudo apt-get install -y build-essential
+
+          elif [ "${{ matrix.language }}" = "js" ]; then
+            curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+
+          elif [ "${{ matrix.language }}" = "go" ]; then
+            wget https://go.dev/dl/go1.21.5.linux-amd64.tar.gz
+            sudo tar -C /usr/local -xzf go1.21.5.linux-amd64.tar.gz
+            echo "PATH=/usr/local/go/bin:$PATH" >> $GITHUB_ENV
           fi
 
-      - name: Install Dependencies and Run Tests
+      - name: Install dependencies and run tests
         run: |
-          if [ "${{ matrix.language }}" == "python" ]; then
-            pip install -r requirements.txt || true;
-            python -m unittest discover -v languages/python/tests;
-          elif [ "${{ matrix.language }}" == "java" ]; then
-            mvn -f languages/java clean test;
-          elif [ "${{ matrix.language }}" == "cpp" ]; then
-            g++ languages/cpp/*/*.cpp -std=c++17 -o cpp_tests;
-            ./cpp_tests;
-          elif [ "${{ matrix.language }}" == "js" ]; then
-            cd languages/js;
-            npm install || true;
-            npm test;
-          elif [ "${{ matrix.language }}" == "go" ]; then
-            cd languages/go;
-            go test ./...;
+          if [ "${{ matrix.language }}" = "python" ]; then
+            if [ -f requirements.txt ]; then
+              pip install -r requirements.txt || exit 1
+            fi
+            if [ -d languages/python/tests ]; then
+              python -m unittest discover -v languages/python/tests
+            else
+              echo "No Python tests found."
+            fi
+
+          elif [ "${{ matrix.language }}" = "java" ]; then
+            if [ -f languages/java/pom.xml ]; then
+              mvn -f languages/java clean test
+            else
+              echo "No Java project (pom.xml) found."
+            fi
+
+          elif [ "${{ matrix.language }}" = "cpp" ]; then
+            cpp_files=$(find languages/cpp -name "*.cpp")
+            if [ -z "$cpp_files" ]; then
+              echo "No C++ source files found."
+            else
+              g++ $cpp_files -std=c++17 -o cpp_tests && ./cpp_tests
+            fi
+
+          elif [ "${{ matrix.language }}" = "js" ]; then
+            if [ -f languages/js/package.json ]; then
+              (cd languages/js && npm install && npm test)
+            else
+              echo "No JS project found."
+            fi
+
+          elif [ "${{ matrix.language }}" = "go" ]; then
+            export PATH="/usr/local/go/bin:$PATH"
+            if [ -f languages/go/go.mod ]; then
+              (cd languages/go && go test ./...)
+            else
+              echo "No Go module found."
+            fi
           fi
