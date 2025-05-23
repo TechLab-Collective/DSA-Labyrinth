@@ -1,0 +1,11 @@
+{
+    "name": "Stack List",
+    "language": "python",
+    "path": "languages/python/data_structures/stack/stack_list.py",
+    "type": "data_structure",
+    "category": "stack",
+    "description": "stack_list implementation using basic data structures in python.",
+    "created_at": "2025-05-08 07:52:06",
+    "modified_at": "2025-05-08 07:52:06",
+    "lines_of_code": 20
+}

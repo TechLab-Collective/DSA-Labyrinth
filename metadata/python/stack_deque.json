@@ -1,0 +1,11 @@
+{
+    "name": "Stack Deque",
+    "language": "python",
+    "path": "languages/python/data_structures/stack/stack_deque.py",
+    "type": "data_structure",
+    "category": "stack",
+    "description": "stack_deque implementation using basic data structures in python.",
+    "created_at": "2025-05-08 07:52:27",
+    "modified_at": "2025-05-08 07:52:27",
+    "lines_of_code": 22
+}

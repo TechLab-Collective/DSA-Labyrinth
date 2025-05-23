@@ -1,0 +1,11 @@
+{
+    "name": "Stack Linkedlist",
+    "language": "python",
+    "path": "languages/python/data_structures/stack/stack_linkedlist.py",
+    "type": "data_structure",
+    "category": "stack",
+    "description": "stack_linkedlist implementation using basic data structures in python.",
+    "created_at": "2025-05-08 07:53:29",
+    "modified_at": "2025-05-08 07:53:29",
+    "lines_of_code": 30
+}
