@@ -1,7 +1,7 @@
 import unittest
-from stack_list import StackList
-from stack_deque import StackDeque
-from stack_linkedlist import StackLinkedList
+from data_structures.stack.stack_list import StackList
+from data_structures.stack.stack_deque import StackDeque
+from data_structures.stack.stack_linkedlist import StackLinkedList
 
 class StackTestCase:
     def stack_class(self):
@@ -30,15 +30,15 @@ class StackTestCase:
 
 class TestStackList(StackTestCase, unittest.TestCase):
     def stack_class(self):
-        return StackList
+        return StackList()
 
 class TestStackDeque(StackTestCase, unittest.TestCase):
     def stack_class(self):
-        return StackDeque
+        return StackDeque()
 
 class TestStackLinkedList(StackTestCase, unittest.TestCase):
     def stack_class(self):
-        return StackLinkedList
+        return StackLinkedList()
 
 if __name__ == "__main__":
     unittest.main()

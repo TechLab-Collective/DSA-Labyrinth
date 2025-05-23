@@ -1,24 +1,35 @@
-# Stack (Python)
+# Stack Implementations in Python
 
-This directory contains multiple implementations of the Stack data structure in Python.
+This directory contains three different implementations of the **Stack** data structure:
 
-## Implementations
+## 📦 Implementations
 
-- `stack_list.py` – using Python built-in list
-- `stack_deque.py` – using `collections.deque` (better performance)
-- `stack_linkedlist.py` – using custom linked list
+### 1. `StackList`
+- Backed by Python’s built-in `list`
+- Fast and simple for most use cases
+- LIFO behavior via `append()` and `pop()`
 
-## Methods
+### 2. `StackDeque`
+- Uses `collections.deque`
+- Optimized for fast O(1) push/pop from both ends
+- Safer for performance in large-scale usage
 
-Each stack supports:
+### 3. `StackLinkedList`
+- Custom implementation using linked list nodes
+- Good for understanding underlying pointer manipulation
+- No limit on capacity
 
-- `push(item)`
-- `pop()`
-- `peek()`
+## 🧪 Tests
+Unit tests are provided in `../../tests/test_stack.py` covering:
+- `push()`, `pop()`, `peek()`
 - `is_empty()`
 - `size()`
 
-## Running Tests
+## 📈 Complexity
 
-```bash
-python -m unittest discover -s languages/python/data_structures/stack/tests
+| Operation  | List | Deque | LinkedList |
+|------------|------|-------|------------|
+| Push       | O(1) | O(1)  | O(1)       |
+| Pop        | O(1) | O(1)  | O(1)       |
+| Peek       | O(1) | O(1)  | O(1)       |
+| Size       | O(1) | O(1)  | O(1)       |
